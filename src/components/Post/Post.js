@@ -22,7 +22,6 @@ class Post extends React.Component{
             .then(data => this.setState( {postList:data}))
   }
 
-
     render(){
         return(
             <div className="w3-col l8 s12">

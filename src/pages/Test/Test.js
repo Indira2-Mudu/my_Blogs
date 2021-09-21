@@ -1,10 +1,17 @@
 import React from "react";
+import * as qs from 'qs';
 
 class Test extends React.Component{
     constructor(props) {
         super(props);
 
-        console.log(this.props.location)
+        this.parseString();
+
+    }
+    parseString(){
+        let str= this.props.location.search;
+        str = qs.parse(str, {ignoreQueryPrefix: true, parameterLimit: 100});
+        console.log(str);
     }
 
     render() {

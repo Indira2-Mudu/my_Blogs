@@ -1,19 +1,37 @@
 import React from "react";
 
-import woods from '../../media/image/woods.jpg';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import CommentsPub from "../../components/CommentsPub/CommentsPub";
-import {Link} from "react-router-dom";
-
 
 
 class FullPost extends React.Component {
     constructor(props) {
         super(props);
+        // console.log('id', this.props.match.params.id);
+        this.state = {
+            post: {}
+        }
+    }
 
-        console.log('id', this.props.match.params.id);
+    componentDidMount(){
+        this.getPostById();
+    }
 
+    getPostById() {
+        const URL = `http://localhost:3001/posts/${this.props.match.params.id}`
+        fetch (URL)
+            .then(response =>{
+                if(response.ok){
+                    return response.json();
+                }else{
+                    alert('Что то пошло не так: Код статуса:' + response.status)
+                }
+            })
+            .then(data =>
+                this.setState( {
+                    post:data,
+                }))
     }
 
     render() {
@@ -22,23 +40,13 @@ class FullPost extends React.Component {
                 <Header/>
                 {/*Full Post*/}
                 <div className="w3-card-4 w3-margin w3-white">
-                    <img src={woods} alt="Nature" style={{width: '100%'}}/>
+                    <img src={this.state.post.img} alt="Nature" style={{width: '100%'}}/>
                     <div className="w3-container">
-                        <Link to="/test">Тестовая страничка</Link>
-                        <h3><b>TITLE HEADING</b></h3>
-                        <h5>Title description, <span className="w3-opacity">April 7, 2014</span></h5>
+                        <h3><b>{this.state.post.title}</b></h3>
+                        <h5>{this.state.post.tag}, <span className="w3-opacity">{this.state.post.createdData}</span></h5>
                     </div>
                     <div className="w3-container">
-                        <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed
-                            mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan
-                            tortor cursus at. Phasellus sed ultricies mi non congue ullam corper.
-                            Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae,
-                            ultricies congue gravida diam non fringilla.Mauris neque quam, fermentum ut nisl vitae,
-                            convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor
-                            magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam
-                            corper. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta
-                            lectus vitae, ultricies congue gravida diam non fringilla.
-                        </p><hr/>
+                        <p>{this.state.post.desc}</p><hr/>
                     </div>
                     {/*Comments add*/}
                     <div className="w3-container">

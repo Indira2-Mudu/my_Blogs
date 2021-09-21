@@ -9,7 +9,7 @@ class PostCard extends React.Component{
                 <img src={this.props.img} alt="Nature" style={ {width:'100%'} }/>
                 <div className="w3-container">
                     <h3><b>{this.props.title}</b></h3>
-                    <h5>{this.props.tag}, <span className="w3-opacity">{this.props.data}</span></h5>
+                    <h5>{this.props.tag}, <span className="w3-opacity">{this.props.createdData}</span></h5>
                 </div>
 
                 <div className="w3-container">
