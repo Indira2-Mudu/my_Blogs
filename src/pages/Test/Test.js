@@ -10,8 +10,20 @@ class Test extends React.Component{
     }
     parseString(){
         let str= this.props.location.search;
-        str = qs.parse(str, {ignoreQueryPrefix: true, parameterLimit: 100});
         console.log(str);
+
+        // str = qs.parse(str, {ignoreQueryPrefix: true, parameterLimit: 100});
+        // console.log(str);
+
+        let params = new URLSearchParams(str);
+
+        params.append('foo', '4')
+        console.log(params.has('asd'));
+        console.log(params.get('name'));
+
+        for (let p of params){
+            console.log(p)
+        }
     }
 
     render() {

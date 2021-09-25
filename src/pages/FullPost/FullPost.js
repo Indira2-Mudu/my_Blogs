@@ -1,8 +1,8 @@
 import React from "react";
 
-import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import CommentsPub from "../../components/CommentsPub/CommentsPub";
+import Comments from "./Comments";
 
 
 class FullPost extends React.Component {
@@ -37,7 +37,6 @@ class FullPost extends React.Component {
     render() {
         return (
             <>
-                <Header/>
                 {/*Full Post*/}
                 <div className="w3-card-4 w3-margin w3-white">
                     <img src={this.state.post.img} alt="Nature" style={{width: '100%'}}/>
@@ -48,19 +47,7 @@ class FullPost extends React.Component {
                     <div className="w3-container">
                         <p>{this.state.post.desc}</p><hr/>
                     </div>
-                    {/*Comments add*/}
-                    <div className="w3-container">
-                        <div className="w3-row">
-                            <div className="w3-col">
-                                <p><span className="w3-padding w3-tag">Comments</span></p>
-                                <input className="w3-input w3-border" type="text"/>
-                                <button className="w3-button w3-section w3-wide w3-padding-large w3-white w3-border w3-right">
-                                    <b>ADD</b>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
+                    <Comments/>
                     {/*Published comments*/}
                     <div className="w3-row w3-margin">
                         <div className="w3-col w3-margin-bottom">
