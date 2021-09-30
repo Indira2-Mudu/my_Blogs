@@ -1,11 +1,11 @@
 import React from "react";
 
 import Footer from "../../components/Footer/Footer";
-import CommentsPub from "../../components/CommentsPub/CommentsPub";
-import Comments from "./Comments";
+import FormComments from "./FormComments";
+import PublishedComments from "./PublishedComments";
 
 
-class FullPost extends React.Component {
+class PostFull extends React.Component {
     constructor(props) {
         super(props);
         // console.log('id', this.props.match.params.id);
@@ -47,15 +47,8 @@ class FullPost extends React.Component {
                     <div className="w3-container">
                         <p>{this.state.post.desc}</p><hr/>
                     </div>
-                    <Comments/>
-                    {/*Published comments*/}
-                    <div className="w3-row w3-margin">
-                        <div className="w3-col w3-margin-bottom">
-                            <p><span className="w3-padding w3-tag">Published comments:</span></p>
-                            <CommentsPub/>
-                            <CommentsPub/>
-                        </div>
-                    </div>
+                    <FormComments id={this.props.match.params.id}/>
+                    <PublishedComments id={this.props.match.params.id}/>
                 </div>
                 <div className="w3-card-4 w3-margin w3-white">
                     <div className="w3-container">
@@ -70,4 +63,4 @@ class FullPost extends React.Component {
     }
 }
 
-export default FullPost;
+export default PostFull;
