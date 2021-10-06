@@ -1,7 +1,7 @@
 import React from 'react';
 import About from "../About/About";
 import PopularPosts from "../PopularPosts/PopularPosts";
-import Tags from "../Tags/Tags";
+import FormTags from "../../pages/Tags/FormTags";
 
 class Info extends React.Component{
     render(){
@@ -11,7 +11,7 @@ class Info extends React.Component{
                 <hr/>
                 <PopularPosts/>
                 <hr/>
-                <Tags/>
+                <FormTags/>
             </div>
         )
     }
