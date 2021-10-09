@@ -3,19 +3,24 @@ import React from "react";
 import Footer from "../../components/Footer/Footer";
 import FormComments from "./FormComments";
 import PublishedComments from "./PublishedComments";
+import {toast} from "react-toastify";
 
 
 class PostFull extends React.Component {
     constructor(props) {
         super(props);
-        // console.log('id', this.props.match.params.id);
+
         this.state = {
-            post: {}
+            post: {},
+            comments:[]
         }
+        this.reload=this.reload.bind(this);
+        this.getCommentsByPostId = this.getCommentsByPostId.bind(this);
     }
 
     componentDidMount(){
         this.getPostById();
+        this.getCommentsByPostId()
     }
 
     getPostById() {
@@ -34,6 +39,30 @@ class PostFull extends React.Component {
                 }))
     }
 
+    reload(){
+        this.getCommentsByPostId()
+    }
+
+    getCommentsByPostId() {
+        const urlParams = `postId=${this.props.match.params.id}&_sort_=id&_order=desc&_page=1&_limit=3`;
+        const URL = `http://localhost:3001/comments?${urlParams}`;
+
+        fetch(URL)
+            .then(response => {
+                if (response.ok) {
+                    this.setState({
+                        pageCount: Math.ceil(response.headers.get('X-Total-Count') / this.state.perPage)
+                    })
+
+                    return response.json();
+                } else {
+                    toast.error('Что то пошло не так: Код статуса:' + response.status)
+                }
+            })
+            .then(data => this.setState({comments:data}))
+    }
+
+
     render() {
         return (
             <>
@@ -47,8 +76,8 @@ class PostFull extends React.Component {
                     <div className="w3-container">
                         <p>{this.state.post.desc}</p><hr/>
                     </div>
-                    <FormComments id={this.props.match.params.id}/>
-                    <PublishedComments id={this.props.match.params.id}/>
+                    <FormComments id={this.props.match.params.id} reload={this.reload}/>
+                    <PublishedComments comments={this.state.comments}/>
                 </div>
                 <div className="w3-card-4 w3-margin w3-white">
                     <div className="w3-container">

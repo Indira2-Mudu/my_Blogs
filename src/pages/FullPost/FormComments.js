@@ -9,6 +9,7 @@ class FormComments extends React.Component {
             name:"",
             comments:""
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.saveComments = this.saveComments.bind(this);
@@ -31,13 +32,15 @@ class FormComments extends React.Component {
         // }
 
 }
+
     handleSubmit(){
-        // console.log(this.state);
         let obj = this.state
         obj.createdDate = new Date().toLocaleString();
 
         obj.postId = this.props.id;
         this.saveComments(obj)
+
+
     }
     saveComments(obj){
         const url = 'http://localhost:3001/comments';
@@ -52,12 +55,13 @@ class FormComments extends React.Component {
             .then(response =>{
                 if(response.ok){
                     toast.success('Ваш комментарий добавлен');
+                    return response.json();
                 }else{
                     toast.error('Что то пошло не так: Код статуса:' + response.status)
                 }
             })
+            .then(data =>this.props.reload())
     }
-
 
     render() {
         return (

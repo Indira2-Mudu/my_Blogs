@@ -1,6 +1,5 @@
 import React from "react";
 import CommentsPub from "../../components/CommentsPub/CommentsPub";
-import {toast} from "react-toastify";
 import ReactPaginate from 'react-paginate';
 import '../../App.css'
 
@@ -15,9 +14,10 @@ class PublishedComments extends React.Component {
             isLoaded: false,
             // offset:0
             perPage: 3,
-            currentPage: 1
+            currentPage: 1,
+            commentsId: this.props.commentsId
         }
-        this.getCommentsByPostId = this.getCommentsByPostId.bind(this);
+
         this.showCommentsWithPagination = this.showCommentsWithPagination.bind(this);
         this.handlePageClick = this.handlePageClick.bind(this);
 
@@ -25,27 +25,9 @@ class PublishedComments extends React.Component {
 
 
     componentDidMount() {
-        this.getCommentsByPostId();
+        this.showCommentsWithPagination(this.props.comments);
     }
 
-    getCommentsByPostId() {
-        const URL = `http://localhost:3001/comments?postId=${this.props.id}&_page=${this.state.currentPage}&_limit=${this.state.perPage}`;
-
-        fetch(URL)
-            .then(response => {
-                if (response.ok) {
-                    this.setState({
-                        pageCount: Math.ceil(response.headers.get('X-Total-Count') / this.state.perPage)
-                    })
-
-                    return response.json();
-                } else {
-                    toast.error('Что то пошло не так: Код статуса:' + response.status)
-                }
-            })
-            .then(data =>
-                this.showCommentsWithPagination(data))
-    }
 
     showCommentsWithPagination(data) {
         this.setState({
@@ -75,8 +57,8 @@ class PublishedComments extends React.Component {
                     <div className="w3-col w3-margin-bottom">
                         <p><span className="w3-padding w3-tag">Published comments:</span></p>
                         {
-                            this.state.comments.map(item => (
-                                <CommentsPub obj={item}/>
+                            this.props.comments.map(item => (
+                                <CommentsPub key={item.id} obj={item}/>
                             ))
                         }
                     </div>
@@ -84,7 +66,7 @@ class PublishedComments extends React.Component {
                         previousLabel={'← Previous'}
                         nextLabel={'Next →'}
                         breakLabel={'...'}
-                        pageCount={this.state.pageCount}
+                        pageCount={3}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
                         onPageChange={this.handlePageClick}
